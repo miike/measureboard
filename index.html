@@ -243,8 +243,8 @@
                 loadTalks: function (talk_data) {
                     // load talks into the vue model
                     this.talks = [];
-                    for (i = 0; i < talk_data.length; i++) {
-                        talk = talk_data[i];
+                    for (var i = 0; i < talk_data.length; i++) {
+                        var talk = talk_data[i];
                         this.talks.push({
                             sessiontime: talk.time,
                             title: talk.title,
@@ -260,8 +260,8 @@
                     }
                 },
                 loadSponsors: function (sponsor_data) {
-                    for (i = 0; i < sponsor_data.length; i++) {
-                        sponsor = sponsor_data[i];
+                    for (var i = 0; i < sponsor_data.length; i++) {
+                        var sponsor = sponsor_data[i];
                         this.sponsors.push({
                             name: sponsor.name,
                             level: sponsor.level,
