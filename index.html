@@ -4,12 +4,30 @@
     <title>Measurecamp Board</title>
     <meta charset="utf-8">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+    <script>
+        var CONFIG = {
+            mcCity: 'Auckland',
+            gtmContainer: 'GTM-ABC123',
+            sheetId: '1NnJroBAvuceVG3nRrYKySbXVRd5rez9gP0qiF7lKCrc',
+            pusher: {
+                appId: '44d30674e79adc2c78ed',
+                region: 'ap1',
+                channel: 'measurenz',
+                event: 'refresh'
+            }
+        };
+
+        document.title += ' ' + CONFIG.mcCity;
+        CONFIG.sheetUrl = 'https://docs.google.com/spreadsheets/d/' + CONFIG.sheetId + '/edit?usp=sharing';
+    </script>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-ABC123');</script>
+    })(window,document,'script','dataLayer',CONFIG.gtmContainer);</script>
     <!-- End Google Tag Manager -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
     <script src="https://unpkg.com/semantic-ui-vue/dist/umd/semantic-ui-vue.min.js"></script>
@@ -116,16 +134,9 @@
     </div>
 
     <script>
-
-        var sheet = 'https://docs.google.com/spreadsheets/d/1NnJroBAvuceVG3nRrYKySbXVRd5rez9gP0qiF7lKCrc/edit?usp=sharing'; // Google sheet URL
-        var pusher_app_id = '44d30674e79adc2c78ed'; // Pusher application id
-        var pusher_region = 'ap1'; // Pusher region
-        var pusher_channel = 'measurenz'; // Pusher channel
-        var pusher_event = 'refresh'; // Pusher event name
-
         function init() {
             Tabletop.init({
-                key: sheet,
+                key: CONFIG.sheetUrl,
                 callback: loaded,
                 simpleSheet: false
             });
@@ -143,9 +154,9 @@
 
         // pusher logic (to allow for live reloads)
         Pusher.logToConsole = true;
-        var pusher = new Pusher(pusher_app_id, { cluster: pusher_region, encrypted: true });
-        var channel = pusher.subscribe(pusher_channel);
-        channel.bind(pusher_event, function (data) {
+        var pusher = new Pusher(CONFIG.pusher.appId, { cluster: CONFIG.pusher.region, encrypted: true });
+        var channel = pusher.subscribe(CONFIG.pusher.channel);
+        channel.bind(CONFIG.pusher.event, function (data) {
             console.log('Reloading talk data...');
             init(); // reload talk data
             dataLayer.push({ 'event': 'Board update' });
@@ -198,7 +209,7 @@
         var app = new Vue({
             el: '#app',
             data: {
-                city: 'Auckland',
+                city: CONFIG.mcCity,
                 talks: [],
                 room_filter: 'all',
                 rooms: ['A', 'B', 'C', 'D', 'E'],
