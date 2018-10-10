@@ -154,32 +154,27 @@
 
         Vue.component('talk-item', {
             template: `
-      <sui-card v-bind:class="{breaksession : breaksession, room_colour: true, pastsession : isFinished, redborder: isFavourite} ">
-      <sui-card-content>
-        <sui-card-header>
-          <div class="right floated meta">
-            <sui-icon name="heart" :class="{outline: !isFavourite, red: true}" fitted v-on:click="mock"/>
-          </div>
-            {{ title }}
-        </sui-card-header>
-        <div class="meta left">
-            <span class="left">{{ speaker }} - {{ sessiontime }}</span>
-        </div>
-      </sui-card-content>
-      <sui-card-content>
-        <sui-card-description>{{ description }}</sui-card-description
-      </sui-card-content>
-      </sui-card-content>
-
-
-      <sui-card-content extra>
-
-        <sui-image v-bind:src="room_image" centered />
-     </sui-card-content>
-
-
-    </sui-card>
-    `,
+            <sui-card v-bind:class="{breaksession : breaksession, room_colour: true, pastsession : isFinished, redborder: isFavourite} ">
+                <sui-card-content>
+                    <sui-card-header>
+                    <div class="right floated meta">
+                        <sui-icon name="heart" :class="{outline: !isFavourite, red: true}" fitted v-on:click="mock"/>
+                    </div>
+                        {{ title }}
+                    </sui-card-header>
+                    <div class="meta left">
+                        <span class="left">{{ speaker }} - {{ sessiontime }}</span>
+                    </div>
+                </sui-card-content>
+                <sui-card-content>
+                    <sui-card-description>{{ description }}</sui-card-description
+                </sui-card-content>
+                </sui-card-content>
+                <sui-card-content extra>
+                    <sui-image v-bind:src="room_image" centered />
+                </sui-card-content>
+            </sui-card>
+            `,
 
             props: ['title', 'description', 'sessiontime', 'speaker', 'room', 'room_filter', 'room_colour', 'room_sponsor', 'favourites', 'finished', 'breaksession', 'displayFavourites', 'room_image'],
             methods: {
