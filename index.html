@@ -1,302 +1,286 @@
+<!doctype html>
 <html>
 <head>
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-ABC123');</script>
-  <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-ABC123');</script>
+    <!-- End Google Tag Manager -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
+    <script src="https://unpkg.com/semantic-ui-vue/dist/umd/semantic-ui-vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pusher/4.3.1/pusher.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/en-au.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css">
+    <title>Measurecamp Board Auckland</title>
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.13/vue.min.js"></script>
-  <script src="https://unpkg.com/semantic-ui-vue/dist/umd/semantic-ui-vue.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
-  <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/en-au.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.0/semantic.min.css"></link>
-  <title>Measurecamp Board Auckland</title>
-  <!-- <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1"> -->
+    <style>
+        .cards-layout {
+            padding: 10px !important;
+        }
 
-  <style>
-      .cards-layout {
-        padding: 10px !important;
-      }
-      .breaksession {
-          color: red;
-          background-color: rgba(42, 115, 197, 0.2) !important;
-          width: 90% !important;
-          margin: 0 5% !important;
-      }
-      .menu {
-          background-color: rgb(164, 62, 65) !important;
-      }
-      .pastsession {
-          opacity: 0.4 !important;
-      }
-      .custom-badge {
-          position: relative !important;
-          margin: 0 !important;
-          left: 20px !important;
-          top: -8px !important;
-          background-color: rgb(164, 62, 65) !important;
-          border: 1px solid #bf5659 !important;
-      }
+        .breaksession {
+            color: red;
+            background-color: rgba(42, 115, 197, 0.2) !important;
+            width: 90% !important;
+            margin: 0 5% !important;
+        }
 
-      /* Semantic-ui style overrides*/
-      .ui.cards>.card {
-          border: 1px solid transparent;
-      }
-      /* .ui.dropdown>.text {
+        .menu {
+            background-color: rgb(164, 62, 65) !important;
+        }
+
+        .pastsession {
+            opacity: 0.4 !important;
+        }
+
+        .custom-badge {
+            position: relative !important;
+            margin: 0 !important;
+            left: 20px !important;
+            top: -8px !important;
+            background-color: rgb(164, 62, 65) !important;
+            border: 1px solid #bf5659 !important;
+        }
+
+        /* Semantic-ui style overrides*/
+        .ui.cards>.card {
+            border: 1px solid transparent;
+        }
+
+        /* .ui.dropdown>.text {
           padding: .78571429em 1.14285714em!important;
       } */
-      .redborder {
-          border: 1px solid #bf5659 !important;
-      }
-  </style>
+        .redborder {
+            border: 1px solid #bf5659 !important;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
         <div class="ui top attached inverted menu">
-          <div class="ui icon white item" @click="showHome">
-            {{ city }} Measurecamp {{ new Date().getFullYear() }}
-          </div>
-          <div class="ui  icon white item" @click="showFavourites">
-            My saved talks
-            <span class="floating ui label custom-badge">{{ favourites.length }}</span>
+            <div class="ui icon white item" @click="showHome">
+                {{ city }} Measurecamp {{ new Date().getFullYear() }}
+            </div>
+            <div class="ui  icon white item" @click="showFavourites">
+                My saved talks
+                <span class="floating ui label custom-badge">{{ favourites.length }}</span>
 
-          </div>
-          <div class="ui icon white item" @click="toggle">
-              <i style="padding-right: 10px;" class="map icon"></i>
-              Venue Map
-          </div>
-          <sui-dropdown text="Sponsors" class="item">
-            <sui-dropdown-menu>
-              <sui-dropdown-item
-                v-for="sponsor in sponsors"
-                >
-                <sui-icon name="trophy" v-bind:style="{ color : sponsor.level}" /></sui-icon>
-               {{ sponsor.name }}
-               </sui-dropdown-item>
-            </sui-dropdown-menu>
-          </sui-dropdown>
+            </div>
+            <div class="ui icon white item" @click="toggle">
+                <i style="padding-right: 10px;" class="map icon"></i>
+                Venue Map
+            </div>
+            <sui-dropdown text="Sponsors" class="item">
+                <sui-dropdown-menu>
+                    <sui-dropdown-item v-for="sponsor in sponsors">
+                        <sui-icon name="trophy" v-bind:style="{ color : sponsor.level}" />
+                        </sui-icon>
+                        {{ sponsor.name }}
+                    </sui-dropdown-item>
+                </sui-dropdown-menu>
+            </sui-dropdown>
         </div>
 
         <template lang="html">
-          <div>
-            <sui-modal v-model="open">
-              <sui-modal-content image>
-                <sui-image wrapped size="medium" :src="venue_img" />
-              </sui-modal-content>
-              <sui-modal-actions>
-                <sui-button floated="right" positive @click.native="toggle">
-                  OK
-                </sui-button>
-              </sui-modal-actions>
-            </sui-modal>
-          </div>
+            <div>
+                <sui-modal v-model="open">
+                    <sui-modal-content image>
+                        <sui-image wrapped size="medium" :src="venue_img" />
+                    </sui-modal-content>
+                    <sui-modal-actions>
+                        <sui-button floated="right" positive @click.native="toggle">
+                            OK
+                        </sui-button>
+                    </sui-modal-actions>
+                </sui-modal>
+            </div>
         </template>
 
         <div class="ui stackable cards cards-layout" v-bind:class="number_rooms">
-            <li
-              is="talk-item"
-              v-for="(talk, index) in talks"
-              v-bind:key="talk.id"
-              v-bind:title="talk.title"
-              v-bind:description="talk.description"
-              v-bind:sessiontime="talk.sessiontime"
-              v-bind:speaker="talk.speaker"
-              v-bind:room="talk.room"
-              v-bind:room_filter="room_filter"
-              v-bind:room_image="talk.room_image"
-              v-bind:room_sponsor="talk.room_sponsor"
-              v-bind:room_colour="talk.room_colour"
-              v-bind:breaksession="talk.breaksession"
-              v-bind:favourites="favourites"
-              v-bind:showFavourites="displayFavourites"
-              v-if="(displayFavourites && favourites.includes(talk.title)) || displayFavourites == false"
-              v-bind:index="index"
-            >
-          </li>
+            <li is="talk-item" v-for="(talk, index) in talks" v-bind:key="talk.id" v-bind:title="talk.title"
+                v-bind:description="talk.description" v-bind:sessiontime="talk.sessiontime" v-bind:speaker="talk.speaker"
+                v-bind:room="talk.room" v-bind:room_filter="room_filter" v-bind:room_image="talk.room_image"
+                v-bind:room_sponsor="talk.room_sponsor" v-bind:room_colour="talk.room_colour" v-bind:breaksession="talk.breaksession"
+                v-bind:favourites="favourites" v-bind:showFavourites="displayFavourites" v-if="(displayFavourites && favourites.includes(talk.title)) || displayFavourites == false"
+                v-bind:index="index">
+            </li>
 
         </div>
     </div>
 
     <script>
 
-    var sheet = 'https://docs.google.com/spreadsheets/d/1NnJroBAvuceVG3nRrYKySbXVRd5rez9gP0qiF7lKCrc/edit?usp=sharing'; // Google sheet URL
-    var pusher_app_id = '44d30674e79adc2c78ed'; // Pusher application id
-    var pusher_region = 'ap1'; // Pusher region
-    var pusher_channel= 'measurenz'; // Pusher channel
-    var pusher_event = 'refresh'; // Pusher event name
+        var sheet = 'https://docs.google.com/spreadsheets/d/1NnJroBAvuceVG3nRrYKySbXVRd5rez9gP0qiF7lKCrc/edit?usp=sharing'; // Google sheet URL
+        var pusher_app_id = '44d30674e79adc2c78ed'; // Pusher application id
+        var pusher_region = 'ap1'; // Pusher region
+        var pusher_channel = 'measurenz'; // Pusher channel
+        var pusher_event = 'refresh'; // Pusher event name
 
-    function init() {
-        Tabletop.init( { key: sheet,
-                             callback: loaded,
-                             simpleSheet: false } );
+        function init() {
+            Tabletop.init({
+                key: sheet,
+                callback: loaded,
+                simpleSheet: false
+            });
         }
 
-    function loaded(data, tabletop) {
-        // called when the spreadsheet data has loaded
-        app.loadTalks(data.BOARD.elements); // load talks into Vue model (equivalent of old data)
-        console.log(data.BOARD.elements);
-        app.loadSponsors(data.sponsors.elements);
-    }
-
-    init();
-
-
-    // pusher logic (to allow for live reloads)
-    Pusher.logToConsole = true;
-    var pusher = new Pusher(pusher_app_id, { cluster: pusher_region, encrypted: true});
-    var channel = pusher.subscribe(pusher_channel);
-    channel.bind(pusher_event, function(data) {
-        console.log('Reloading talk data...');
-        init(); // reload talk data
-        dataLayer.push({'event': 'Board update'});
-    });
-
-  Vue.use(SemanticUIVue);
-
-  Vue.component('talk-item', {
-      template: `
-      <sui-card v-bind:class="{breaksession : breaksession, room_colour: true, pastsession : isFinished, redborder: isFavourite} ">
-      <sui-card-content>
-        <sui-card-header>
-          <div class="right floated meta">
-            <sui-icon name="heart" :class="{outline: !isFavourite, red: true}" fitted v-on:click="mock"/>
-          </div>
-            {{ title }}
-        </sui-card-header>
-        <div class="meta left">
-            <span class="left">{{ speaker }} - {{ sessiontime }}</span>
-        </div>
-      </sui-card-content>
-      <sui-card-content>
-        <sui-card-description>{{ description }}</sui-card-description
-      </sui-card-content>
-      </sui-card-content>
-
-
-      <sui-card-content extra>
-
-        <sui-image v-bind:src="room_image" centered />
-     </sui-card-content>
-
-
-    </sui-card>
-    `,
-
-      props: ['title', 'description', 'sessiontime', 'speaker', 'room', 'room_filter', 'room_colour', 'room_sponsor', 'favourites', 'finished', 'breaksession', 'displayFavourites', 'room_image'],
-      methods: {
-        mock: function () {
-            app.add(this.title); // not idiomatic
+        function loaded(data, tabletop) {
+            // called when the spreadsheet data has loaded
+            app.loadTalks(data.BOARD.elements); // load talks into Vue model (equivalent of old data)
+            console.log(data.BOARD.elements);
+            app.loadSponsors(data.sponsors.elements);
         }
-      },
-      computed: {
-        isFavourite: function() {
-            return this.favourites.includes(this.title); // should probably be in local storage
-        },
-        isFinished : function(e) {
-            // returns true if talk has not yet finished (or been presented)
-            var split = this.sessiontime.split('-')[0].trim();
-            return moment(split, 'h:mma').isBefore();
-        }
-      }
-  });
 
-  var app = new Vue({
-    el: '#app',
-    data: {
-        city: 'Auckland',
-        talks: [],
-        room_filter: 'all',
-        rooms: ['A', 'B', 'C', 'D', 'E'],
-        number_rooms: 'five', // sets how many cards displayed on each row
-        favourites: [],
-        open: false,
-        displayFavourites: false,
-        venue_img: 'http://via.placeholder.com/500x500', // image of the floor plan
-        sponsors: []
-    },
-    mounted() {
-        console.log('the application has been mounted');
-        if (localStorage.getItem('talks')) {
-            this.favourites = JSON.parse(localStorage.getItem('talks'));
-        }
-    },
-    methods: {
-        add: function (title) {
-            // or remove
-            if (this.favourites.includes(title)) {
-                this.favourites.splice(this.favourites.indexOf(title), 1);
-                dataLayer.push({'event': 'Removed favourite', 'title': title});
-                localStorage.setItem('talks', JSON.stringify(this.favourites));
-            } else {
-                this.favourites.push(title);
-                // push to local storage
-                localStorage.setItem('talks', JSON.stringify(this.favourites));
-                dataLayer.push({'event': 'Add favourite', 'title': title});
+        init();
 
+
+        // pusher logic (to allow for live reloads)
+        Pusher.logToConsole = true;
+        var pusher = new Pusher(pusher_app_id, { cluster: pusher_region, encrypted: true });
+        var channel = pusher.subscribe(pusher_channel);
+        channel.bind(pusher_event, function (data) {
+            console.log('Reloading talk data...');
+            init(); // reload talk data
+            dataLayer.push({ 'event': 'Board update' });
+        });
+
+        Vue.use(SemanticUIVue);
+
+        Vue.component('talk-item', {
+            template: `
+            <sui-card v-bind:class="{breaksession : breaksession, room_colour: true, pastsession : isFinished, redborder: isFavourite} ">
+                <sui-card-content>
+                    <sui-card-header>
+                    <div class="right floated meta">
+                        <sui-icon name="heart" :class="{outline: !isFavourite, red: true}" fitted v-on:click="mock"/>
+                    </div>
+                        {{ title }}
+                    </sui-card-header>
+                    <div class="meta left">
+                        <span class="left">{{ speaker }} - {{ sessiontime }}</span>
+                    </div>
+                </sui-card-content>
+                <sui-card-content>
+                    <sui-card-description>{{ description }}</sui-card-description
+                </sui-card-content>
+                </sui-card-content>
+                <sui-card-content extra>
+                    <sui-image v-bind:src="room_image" centered />
+                </sui-card-content>
+            </sui-card>
+            `,
+
+            props: ['title', 'description', 'sessiontime', 'speaker', 'room', 'room_filter', 'room_colour', 'room_sponsor', 'favourites', 'finished', 'breaksession', 'displayFavourites', 'room_image'],
+            methods: {
+                mock: function () {
+                    app.add(this.title); // not idiomatic
+                }
+            },
+            computed: {
+                isFavourite: function () {
+                    return this.favourites.includes(this.title); // should probably be in local storage
+                },
+                isFinished: function (e) {
+                    // returns true if talk has not yet finished (or been presented)
+                    var split = this.sessiontime.split('-')[0].trim();
+                    return moment(split, 'h:mma').isBefore();
+                }
             }
-        },
-        filterRoom: function(room) {
-            this.room_filter = room;
-        },
-        resetRoomFilter: function() {
-            this.room_filter = 'all';
-        },
-        loadTalks: function(talk_data){
-            // load talks into the vue model
-            this.talks = [];
-            for(i=0;i<talk_data.length;i++){
-                talk = talk_data[i];
-                this.talks.push({
-                    sessiontime: talk.time,
-                    title: talk.title,
-                    speaker: talk.speaker,
-                    image: '',
-                    description: talk.description,
-                    room_colour: talk.room_colour,
-                    room_sponsor: talk.room_sponsor,
-                    room_image: talk.image,
-                    finished: false,
-                    breaksession: talk.break === 'TRUE' ? true : false
-                });
+        });
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                city: 'Auckland',
+                talks: [],
+                room_filter: 'all',
+                rooms: ['A', 'B', 'C', 'D', 'E'],
+                number_rooms: 'five', // sets how many cards displayed on each row
+                favourites: [],
+                open: false,
+                displayFavourites: false,
+                venue_img: 'http://via.placeholder.com/500x500', // image of the floor plan
+                sponsors: []
+            },
+            mounted() {
+                console.log('the application has been mounted');
+                if (localStorage.getItem('talks')) {
+                    this.favourites = JSON.parse(localStorage.getItem('talks'));
+                }
+            },
+            methods: {
+                add: function (title) {
+                    // or remove
+                    if (this.favourites.includes(title)) {
+                        this.favourites.splice(this.favourites.indexOf(title), 1);
+                        dataLayer.push({ 'event': 'Removed favourite', 'title': title });
+                        localStorage.setItem('talks', JSON.stringify(this.favourites));
+                    } else {
+                        this.favourites.push(title);
+                        // push to local storage
+                        localStorage.setItem('talks', JSON.stringify(this.favourites));
+                        dataLayer.push({ 'event': 'Add favourite', 'title': title });
+
+                    }
+                },
+                filterRoom: function (room) {
+                    this.room_filter = room;
+                },
+                resetRoomFilter: function () {
+                    this.room_filter = 'all';
+                },
+                loadTalks: function (talk_data) {
+                    // load talks into the vue model
+                    this.talks = [];
+                    for (var i = 0; i < talk_data.length; i++) {
+                        var talk = talk_data[i];
+                        this.talks.push({
+                            sessiontime: talk.time,
+                            title: talk.title,
+                            speaker: talk.speaker,
+                            image: '',
+                            description: talk.description,
+                            room_colour: talk.room_colour,
+                            room_sponsor: talk.room_sponsor,
+                            room_image: talk.image,
+                            finished: false,
+                            breaksession: talk.break === 'TRUE' ? true : false
+                        });
+                    }
+                },
+                loadSponsors: function (sponsor_data) {
+                    for (var i = 0; i < sponsor_data.length; i++) {
+                        var sponsor = sponsor_data[i];
+                        this.sponsors.push({
+                            name: sponsor.name,
+                            level: sponsor.level,
+                            url: sponsor.url,
+                            image: sponsor.image
+                        });
+                    }
+                },
+                showFavourites: function () {
+                    if (this.displayFavourites) {
+                        dataLayer.push({ 'event': 'Show saved talks' });
+                    }
+                    this.displayFavourites = !this.displayFavourites;
+                },
+                toggle: function () {
+                    dataLayer.push({ 'event': 'Show venue map' });
+                    this.open = !this.open;
+                },
+                showHome: function () {
+                    this.displayFavourites = false;
+                }
             }
-        },
-        loadSponsors: function(sponsor_data){
-            for(i=0;i<sponsor_data.length;i++){
-                sponsor = sponsor_data[i];
-                this.sponsors.push({
-                    name: sponsor.name,
-                    level: sponsor.level,
-                    url: sponsor.url,
-                    image: sponsor.image
-                });
-            }
-        },
-        showFavourites: function() {
-            if (this.displayFavourites) {
-                dataLayer.push({'event': 'Show saved talks'});
-            }
-            this.displayFavourites = !this.displayFavourites;
-        },
-        toggle: function() {
-            dataLayer.push({'event': 'Show venue map'});
-            this.open = !this.open;
-        },
-        showHome: function() {
-            this.displayFavourites = false;
-        }
-    }
-  });
-  </script>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ABC123"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+        });
+    </script>
 </body>
-
 </html>
