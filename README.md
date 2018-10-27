@@ -18,7 +18,7 @@ Measureboard is released under the permissive MIT License. To contribute please 
 
 The frontend to the software is a simple [Vue](https://vuejs.org/) application with a small amount of state handling for favourites and room filtering. The Semantic UI Vue plugin is used to provide Semantic UI components to render.
 
-The backend data source for the application is a Google Sheet using the following [template](https://docs.google.com/spreadsheets/d/1NnJroBAvuceVG3nRrYKySbXVRd5rez9gP0qiF7lKCrc).
+The backend data source for the application is a Google Sheet using the following [template](https://docs.google.com/spreadsheets/d/1NnJroBAvuceVG3nRrYKySbXVRd5rez9gP0qiF7lKCrc). This is currently been refactored to use Firestore (Firebase) instead.
 
 Updates to the Google Sheet (e.g., room changes, talk title changes) are pushed to the front end in real time using [Pusher](https://pusher.com/) which acts as a simple pubsub messaging interface over websockets. Updates to the Google Sheet are typically reflected in the interface within 2-5 seconds and do not require the client to refresh the web page.
 
