@@ -1,0 +1,60 @@
+<html>
+
+<style>
+input {
+    font-size: 3em;
+}
+
+textarea {
+    font-size: 3em;
+}
+</style>
+
+
+
+<body>
+
+    <script>
+
+    const output = document.getElementById('output');
+
+    function upload(fileList) {
+    console.log('upload called');
+    let file = null;
+
+    for (let i = 0; i < fileList.length; i++) {
+        if (fileList[i].type.match(/^image\//)) {
+        file = fileList[i];
+        break;
+        }
+    }
+
+    if (file !== null) {
+        output.src = URL.createObjectURL(file); // not too sure what this function does...
+    }
+    }
+
+    const fileInput = document.getElementById('card-input');
+    fileInput.addEventListener('change', (e) => upload(e.target.files));
+    </script>
+
+    <form method="POST" action="http://127.0.0.1:5000/create">
+        <input type="file" accept="image/*;capture=camera" id="card-input">
+    </p>
+        <input type="text" value="" placeholder="id" name="id" required length=255></input>
+        <p></p>
+        <input type="text" value="" name="title" placeholder="title"></input>
+        <p></p>
+        <textarea value="" name="description" placeholder="description" rows=3></textarea>
+        <p></p>
+        <input type="text" value="" name="author" placeholder="author"></input>
+    <p></p>
+        <input type="submit" value="Submit">
+
+        <img id="output">
+
+    
+    </form>
+
+</body>
+</html>
